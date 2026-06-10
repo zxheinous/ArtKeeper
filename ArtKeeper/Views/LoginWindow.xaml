@@ -1,0 +1,22 @@
+﻿<Window x:Class="ArtKeeper.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:ArtKeeper.ViewModels"
+        Title="Авторизация" Height="300" Width="400" WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <vm:LoginViewModel/>
+    </Window.DataContext>
+
+    <StackPanel Margin="50" VerticalAlignment="Center">
+        <TextBlock Text="Логин:"/>
+        <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,10"/>
+
+        <TextBlock Text="Пароль:"/>
+        <PasswordBox x:Name="txtPassword" Margin="0,5,0,20"/>
+
+        <Button Content="Войти" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=txtPassword}" Height="35"/>
+
+        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+    </StackPanel>
+</Window>
