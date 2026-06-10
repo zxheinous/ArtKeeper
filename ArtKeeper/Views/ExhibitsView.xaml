@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ArtKeeper.Views.ExhibitionsView"
+﻿<UserControl x:Class="ArtKeeper.Views.ExhibitsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
@@ -7,15 +7,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Выставочные проекты" FontSize="24" FontWeight="Bold" Margin="0,0,0,15" Foreground="#333333"/>
+        <Button Content="Обновить" Command="{Binding LoadDataCommand}" Width="100" HorizontalAlignment="Left" Margin="0,0,0,10" Style="{StaticResource ActionBtn}"/>
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding ExhibitionsList}" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid ItemsSource="{Binding Exhibits}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название выставки" Binding="{Binding Title}" Width="250"/>
-                <DataGridTextColumn Header="Дата начала" Binding="{Binding StartDate, StringFormat=dd.MM.yyyy}" Width="120"/>
-                <DataGridTextColumn Header="Дата окончания" Binding="{Binding EndDate, StringFormat=dd.MM.yyyy}" Width="120"/>
-                <DataGridTextColumn Header="Куратор" Binding="{Binding Curator.FullName}" Width="180"/>
-                <DataGridTextColumn Header="Бюджет (руб.)" Binding="{Binding TotalBudget, StringFormat={}{0:N2}}" Width="120"/>
+                <DataGridTextColumn Header="Инв. №" Binding="{Binding InventoryNumber}"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding CurrentStatus}"/>
+                <DataGridTextColumn Header="Зал" Binding="{Binding Hall.HallName}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
