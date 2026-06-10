@@ -3,29 +3,61 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:ArtKeeper.Views"
         xmlns:vms="clr-namespace:ArtKeeper.ViewModels"
-        Title="АртХранитель" Height="600" Width="900" WindowStartupLocation="CenterScreen">
+        Title="АртХранитель - Система управления" Height="700" Width="1100" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type vms:ExhibitsViewModel}">
             <views:ExhibitsView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:RestorationViewModel}">
+            <views:RestorationView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:ExhibitionsViewModel}">
+            <views:ExhibitionsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:UsersViewModel}">
+            <views:UsersView/>
+        </DataTemplate>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="#F5F6F8">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="260"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Background="#2D2D30">
-            <StackPanel Margin="10">
-                <TextBlock Text="{Binding CurrentUser.FullName}" Foreground="White" Margin="0,0,0,20"/>
+        <Border Background="#1E1E2D" Grid.Column="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                <Button Content="Картотека экспонатов" Command="{Binding NavigateExhibitsCommand}" Margin="0,5"/>
-                <Button Content="Выход" Command="{Binding LogoutCommand}" Margin="0,50,0,0" Background="DarkRed" Foreground="White"/>
-            </StackPanel>
+                <StackPanel Grid.Row="0" Margin="20,30,20,20">
+                    <Border Width="60" Height="60" CornerRadius="30" Background="#3E3E42" HorizontalAlignment="Left">
+                        <TextBlock Text="👤" FontSize="30" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="{Binding CurrentUser.FullName}" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,15,0,5" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding CurrentUser.Role.RoleName}" Foreground="#AAAAAA" FontSize="13"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Margin="10,0">
+                    <Button Content="🖼  Картотека экспонатов" Style="{StaticResource MenuButton}" Command="{Binding NavigateExhibitsCommand}"/>
+                    <Button Content="🛠  Реставрационные работы" Style="{StaticResource MenuButton}" Command="{Binding NavigateRestorationCommand}"/>
+                    <Button Content="🏛  Выставочные проекты" Style="{StaticResource MenuButton}" Command="{Binding NavigateExhibitionsCommand}"/>
+                    <Button Content="👥  Сотрудники и пользователи" Style="{StaticResource MenuButton}" Command="{Binding NavigateUsersCommand}"/>
+                </StackPanel>
+
+                <Button Grid.Row="2" Content="🚪  Выход из системы" Style="{StaticResource MenuButton}" Command="{Binding LogoutCommand}" Foreground="#FF7B7B" Margin="10,20"/>
+            </Grid>
         </Border>
 
-        <ContentControl Content="{Binding CurrentView}" Grid.Column="1" Margin="10"/>
+        <Border Grid.Column="1" Background="White" CornerRadius="8" Margin="15" Padding="20">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" Color="Black" Opacity="0.05" ShadowDepth="2"/>
+            </Border.Effect>
+            <ContentControl Content="{Binding CurrentView}"/>
+        </Border>
     </Grid>
 </Window>

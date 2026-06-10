@@ -6,30 +6,16 @@ using ArtKeeper.Models;
 
 namespace ArtKeeper.ViewModels
 {
-    public class ExhibitsViewModel : ObservableObject
+    public class ExhibitionsViewModel : ObservableObject
     {
-        private ObservableCollection<Exhibit> _exhibits;
-        public ObservableCollection<Exhibit> Exhibits
-        {
-            get => _exhibits;
-            set { _exhibits = value; OnPropertyChanged(); }
-        }
+        public ObservableCollection<Exhibition> ExhibitionsList { get; set; }
 
-        public RelayCommand LoadDataCommand { get; }
-
-        public ExhibitsViewModel()
-        {
-            _exhibits = new ObservableCollection<Exhibit>();
-            LoadDataCommand = new RelayCommand(o => LoadExhibits());
-            LoadExhibits();
-        }
-
-        private void LoadExhibits()
+        public ExhibitionsViewModel()
         {
             using (var context = new ArtKeeperContext())
             {
-                var data = context.Exhibits.Include(e => e.Hall).ToList();
-                Exhibits = new ObservableCollection<Exhibit>(data);
+                var data = context.Exhibitions.Include(e => e.Curator).ToList();
+                ExhibitionsList = new ObservableCollection<Exhibition>(data);
             }
         }
     }

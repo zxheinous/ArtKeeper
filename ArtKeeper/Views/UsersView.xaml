@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="ArtKeeper.Views.UsersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Управление сотрудниками" FontSize="24" FontWeight="Bold" Margin="0,0,0,15" Foreground="#333333"/>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding UsersList}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО Сотрудника" Binding="{Binding FullName}" Width="250"/>
+                <DataGridTextColumn Header="Логин" Binding="{Binding Username}" Width="120"/>
+                <DataGridTextColumn Header="Роль" Binding="{Binding Role.RoleName}" Width="180"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="180"/>
+                <DataGridCheckBoxColumn Header="Активен" Binding="{Binding IsActive}" Width="80"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

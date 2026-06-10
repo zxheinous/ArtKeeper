@@ -2,9 +2,9 @@
 
 namespace ArtKeeper.Views
 {
-    public partial class ExhibitionsView : UserControl
+    public partial class RestorationView : UserControl
     {
-        public ExhibitionsView()
+        public RestorationView()
         {
             InitializeComponent();
         }
