@@ -1,22 +1,100 @@
 ﻿<UserControl x:Class="ArtKeeper.Views.RestorationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="850">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Реставрационные задания" FontSize="24" FontWeight="Bold" Margin="0,0,0,15" Foreground="#333333"/>
+        <Grid Grid.Row="0" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Реставрационные задания" FontSize="24" FontWeight="Bold" Foreground="#333333" VerticalAlignment="Center"/>
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Tasks}" AutoGenerateColumns="False" IsReadOnly="True">
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="➕ Новое задание" Command="{Binding ToggleAddingPanelCommand}" Style="{StaticResource ActionBtn}" Background="#2E7D32" Margin="0,0,10,0"/>
+                <Button Content="✓ Завершить работу" Command="{Binding CompleteTaskCommand}" Style="{StaticResource ActionBtn}" Background="#007ACC" Margin="0,0,10,0"/>
+                <Button Content="🗑 Удалить" Command="{Binding DeleteTaskCommand}" Style="{StaticResource ActionBtn}" Background="#C62828" Margin="0,0,10,0"/>
+                <Button Content="🔄 Обновить" Command="{Binding LoadDataCommand}" Style="{StaticResource ActionBtn}"/>
+            </StackPanel>
+        </Grid>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,0,15">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Экспонат" Binding="{Binding Exhibit.Title}" Width="200"/>
-                <DataGridTextColumn Header="Мастерская" Binding="{Binding Workshop.WorkshopName}" Width="200"/>
-                <DataGridTextColumn Header="Мастер" Binding="{Binding Restorer.FullName}" Width="150"/>
-                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="150"/>
-                <DataGridTextColumn Header="Дата начала" Binding="{Binding StartDate, StringFormat=dd.MM.yyyy}" Width="100"/>
+                <DataGridTextColumn Header="Экспонат" Binding="{Binding Exhibit.Title}" Width="2*"/>
+                <DataGridTextColumn Header="Мастерская" Binding="{Binding Workshop.WorkshopName}" Width="2*"/>
+                <DataGridTextColumn Header="Ответственный реставратор" Binding="{Binding Restorer.FullName}" Width="1.8*"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="1.2*"/>
+                <DataGridTextColumn Header="Дата начала" Binding="{Binding StartDate, StringFormat=dd.MM.yyyy}" Width="1*"/>
+                <DataGridTextColumn Header="Дата окончания" Binding="{Binding EndDate, StringFormat=dd.MM.yyyy}" Width="1*"/>
+                <DataGridTextColumn Header="Акт комиссии" Binding="{Binding CommissionActNumber}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <Border Grid.Row="2" Background="#F9F9F9" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="8" Padding="15">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsAddingPanelVisible}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Оформление нового реставрационного задания" FontSize="16" FontWeight="Bold" Foreground="#2D2D30" Margin="0,0,0,15"/>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,10,10">
+                        <TextBlock Text="Экспонат:" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="#555555"/>
+                        <ComboBox ItemsSource="{Binding AvailableExhibits}" SelectedItem="{Binding NewExhibit}" DisplayMemberPath="Title" Padding="6,4"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="0,0,10,10">
+                        <TextBlock Text="Мастерская:" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="#555555"/>
+                        <ComboBox ItemsSource="{Binding AvailableWorkshops}" SelectedItem="{Binding NewWorkshop}" DisplayMemberPath="WorkshopName" Padding="6,4"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Margin="0,0,0,10">
+                        <TextBlock Text="Назначить мастера:" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="#555555"/>
+                        <ComboBox ItemsSource="{Binding AvailableRestorers}" SelectedItem="{Binding NewRestorer}" DisplayMemberPath="FullName" Padding="6,4"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,5,0,10">
+                        <TextBlock Text="План восстановительных методик и описание дефектов:" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="#555555"/>
+                        <TextBox Text="{Binding NewDescription, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" Height="70" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Padding="6"/>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+                    <Button Content="Отмена" Command="{Binding ToggleAddingPanelCommand}" Style="{StaticResource ActionBtn}" Background="#888888" Margin="0,0,10,0" Width="100"/>
+                    <Button Content="Сохранить в БД" Command="{Binding SaveNewTaskCommand}" Style="{StaticResource ActionBtn}" Background="#2E7D32" Width="140"/>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

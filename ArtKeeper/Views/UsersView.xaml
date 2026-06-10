@@ -9,6 +9,11 @@
 
         <TextBlock Text="Управление сотрудниками" FontSize="24" FontWeight="Bold" Margin="0,0,0,15" Foreground="#333333"/>
 
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,15">
+            <Button Content="➕ Зарегистрировать" Command="{Binding AddCommand}" Style="{StaticResource ActionBtn}" Margin="0,0,10,0" Background="#2E7D32"/>
+            <Button Content="🔄 Обновить" Command="{Binding LoadDataCommand}" Style="{StaticResource ActionBtn}"/>
+        </StackPanel>
+
         <DataGrid Grid.Row="1" ItemsSource="{Binding UsersList}" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ФИО Сотрудника" Binding="{Binding FullName}" Width="250"/>

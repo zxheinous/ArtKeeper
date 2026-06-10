@@ -7,7 +7,13 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button Content="Обновить" Command="{Binding LoadDataCommand}" Width="100" HorizontalAlignment="Left" Margin="0,0,0,10" Style="{StaticResource ActionBtn}"/>
+        <TextBlock Text="Картотека экспонатов" FontSize="24" FontWeight="Bold" Margin="0,0,0,15" Foreground="#333333"/>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,15">
+            <Button Content="➕ Добавить экспонат" Command="{Binding AddCommand}" Style="{StaticResource ActionBtn}" Margin="0,0,10,0" Background="#2E7D32"/>
+            <Button Content="🗑 Удалить" Command="{Binding DeleteCommand}" Style="{StaticResource ActionBtn}" Margin="0,0,10,0" Background="#C62828"/>
+            <Button Content="🔄 Обновить базу" Command="{Binding LoadDataCommand}" Style="{StaticResource ActionBtn}"/>
+        </StackPanel>
 
         <DataGrid ItemsSource="{Binding Exhibits}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1">
             <DataGrid.Columns>
